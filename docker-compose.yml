@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # H2 Database Service
+  h2-database:
+    image: buildo/h2database:latest
+    container_name: h2-database
+    ports:
+      - "9092:9092"  # H2 TCP Server port
+      - "8082:8082"  # H2 Web Console port
+    environment:
+      - H2_OPTIONS=-ifNotExists
+    volumes:
+      - h2-data:/opt/h2-data
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Spring Boot Application Service
+  app:
+    build: .
+    container_name: international-media-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JAVA_OPTS=-Xmx512m -Xms256m
+      - SPRING_DATASOURCE_URL=jdbc:h2:tcp://h2-database:9092/./data/testdb
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_H2_CONSOLE_PATH=/h2-console
+    depends_on:
+      - h2-database
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/members"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - app-network
+
+volumes:
+  h2-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

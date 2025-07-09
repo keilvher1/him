@@ -1,0 +1,536 @@
+{
+  "info": {
+    "_postman_id": "international-media-api",
+    "name": "International Media API",
+    "description": "한동대학교 국제미디어 학회 백엔드 API 컬렉션",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "Create Member",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"김철수\",\n  \"email\": \"chulsoo.kim@handong.edu\",\n  \"studentId\": \"22000123\",\n  \"department\": \"국제어문학부\",\n  \"phoneNumber\": \"010-1234-5678\",\n  \"role\": \"MEMBER\",\n  \"bio\": \"국제미디어 학회 신입회원입니다.\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/members",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members"]
+            }
+          }
+        },
+        {
+          "name": "Get All Members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/members",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members"]
+            }
+          }
+        },
+        {
+          "name": "Get Member by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/members/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Member by Email",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/members/email/chulsoo.kim@handong.edu",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "email", "chulsoo.kim@handong.edu"]
+            }
+          }
+        },
+        {
+          "name": "Get Active Members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/members/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "active"]
+            }
+          }
+        },
+        {
+          "name": "Get Members by Role",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/members/role/PRESIDENT",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "role", "PRESIDENT"]
+            }
+          }
+        },
+        {
+          "name": "Get Members by Department",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/members/department/국제어문학부",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "department", "국제어문학부"]
+            }
+          }
+        },
+        {
+          "name": "Update Member",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"김철수\",\n  \"email\": \"chulsoo.kim@handong.edu\",\n  \"studentId\": \"22000123\",\n  \"department\": \"국제어문학부\",\n  \"phoneNumber\": \"010-1234-5678\",\n  \"role\": \"SECRETARY\",\n  \"bio\": \"국제미디어 학회 총무로 승진했습니다.\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/members/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Member",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/members/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "3"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"국제미디어 학회 웹사이트 리뉴얼\",\n  \"description\": \"학회 공식 웹사이트를 React와 Spring Boot를 사용하여 전면 개편합니다.\",\n  \"status\": \"IN_PROGRESS\",\n  \"startDate\": \"2024-03-01\",\n  \"endDate\": \"2024-06-30\",\n  \"projectUrl\": \"https://internationalmedia.handong.edu\",\n  \"githubUrl\": \"https://github.com/handong-im/website-renewal\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            }
+          }
+        },
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            }
+          }
+        },
+        {
+          "name": "Get Project by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Projects by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/status/IN_PROGRESS",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "status", "IN_PROGRESS"]
+            }
+          }
+        },
+        {
+          "name": "Get Projects by Date Range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/date-range?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "date-range"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/search?keyword=미디어",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "search"],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "미디어"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Projects by Member",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/member/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "member", "1"]
+            }
+          }
+        },
+        {
+          "name": "Add Member to Project",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1/members/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1", "members", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"국제미디어 학회 웹사이트 리뉴얼 v2.0\",\n  \"description\": \"학회 공식 웹사이트를 React와 Spring Boot를 사용하여 전면 개편합니다. 모바일 반응형 디자인 추가\",\n  \"status\": \"IN_PROGRESS\",\n  \"startDate\": \"2024-03-01\",\n  \"endDate\": \"2024-07-31\",\n  \"projectUrl\": \"https://internationalmedia.handong.edu\",\n  \"githubUrl\": \"https://github.com/handong-im/website-renewal\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Remove Member from Project",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1/members/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1", "members", "2"]
+            }
+          }
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "3"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"2024 봄학기 신입회원 환영회\",\n  \"description\": \"새로운 학기를 맞아 신입회원들을 환영하는 오리엔테이션 및 네트워킹 행사\",\n  \"eventDate\": \"2024-03-15T18:00:00\",\n  \"location\": \"올네이션스홀 201호\",\n  \"eventType\": \"SOCIAL\",\n  \"status\": \"UPCOMING\",\n  \"maxParticipants\": 50,\n  \"registrationUrl\": \"https://forms.gle/example123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/events",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events"]
+            }
+          }
+        },
+        {
+          "name": "Get All Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events"]
+            }
+          }
+        },
+        {
+          "name": "Get Event by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Events by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/status/UPCOMING",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "status", "UPCOMING"]
+            }
+          }
+        },
+        {
+          "name": "Get Events by Type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/type/WORKSHOP",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "type", "WORKSHOP"]
+            }
+          }
+        },
+        {
+          "name": "Get Events by Date Range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/date-range?start=2024-03-01T00:00:00&end=2024-06-30T23:59:59",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "date-range"],
+              "query": [
+                {
+                  "key": "start",
+                  "value": "2024-03-01T00:00:00"
+                },
+                {
+                  "key": "end",
+                  "value": "2024-06-30T23:59:59"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Upcoming Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/upcoming",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "upcoming"]
+            }
+          }
+        },
+        {
+          "name": "Get Events by Organizer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/organizer/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "organizer", "2"]
+            }
+          }
+        },
+        {
+          "name": "Get Events by Participant",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/participant/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "participant", "1"]
+            }
+          }
+        },
+        {
+          "name": "Set Event Organizer",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/1/organizer/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "1", "organizer", "2"]
+            }
+          }
+        },
+        {
+          "name": "Add Participant to Event",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/1/participants/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "1", "participants", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"2024 봄학기 신입회원 환영회 (장소 변경)\",\n  \"description\": \"새로운 학기를 맞아 신입회원들을 환영하는 오리엔테이션 및 네트워킹 행사\",\n  \"eventDate\": \"2024-03-15T18:00:00\",\n  \"location\": \"올네이션스홀 301호\",\n  \"eventType\": \"SOCIAL\",\n  \"status\": \"UPCOMING\",\n  \"maxParticipants\": 60,\n  \"registrationUrl\": \"https://forms.gle/example123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/events/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "1"]
+            }
+          }
+        },
+        {
+          "name": "Remove Participant from Event",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/1/participants/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "1", "participants", "3"]
+            }
+          }
+        },
+        {
+          "name": "Delete Event",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "3"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}
