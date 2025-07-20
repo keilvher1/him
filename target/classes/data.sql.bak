@@ -1,0 +1,12 @@
+-- 초기 학생 데이터 삽입
+INSERT INTO students (name, email, created_at, updated_at) VALUES 
+('김민준', 'minjun.kim@example.com', NOW(), NOW()),
+('이서연', 'seoyeon.lee@example.com', NOW(), NOW()),
+('박지호', 'jiho.park@example.com', NOW(), NOW()),
+('최예진', 'yejin.choi@example.com', NOW(), NOW()),
+('정우진', 'woojin.jung@example.com', NOW(), NOW()),
+('강민서', 'minseo.kang@example.com', NOW(), NOW()),
+('조은지', 'eunji.jo@example.com', NOW(), NOW()),
+('윤서준', 'seojun.yoon@example.com', NOW(), NOW()),
+('임하윤', 'hayoon.lim@example.com', NOW(), NOW()),
+('한지우', 'jiwoo.han@example.com', NOW(), NOW());

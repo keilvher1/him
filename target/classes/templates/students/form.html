@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${student.id != null ? '학생 정보 수정' : '새 학생 등록'}">학생 등록</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        main {
+            flex: 1;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+        }
+        
+        .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/students">학생 관리 시스템</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/students">학생 목록</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/students/new">학생 등록</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content Area -->
+    <main class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0" th:text="${student.id != null ? '학생 정보 수정' : '새 학생 등록'}">학생 등록</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="${student.id != null ? '/students/edit/' + student.id : '/students'}" 
+                              th:object="${student}" method="post" novalidate>
+                            
+                            <!-- Name Field -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">이름 <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       th:class="${#fields.hasErrors('name')} ? 'form-control is-invalid' : 'form-control'"
+                                       id="name" 
+                                       th:field="*{name}" 
+                                       placeholder="학생 이름을 입력하세요"
+                                       required>
+                                <div th:if="${#fields.hasErrors('name')}" class="error-message">
+                                    <span th:errors="*{name}"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Email Field -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">이메일 <span class="text-danger">*</span></label>
+                                <input type="email" 
+                                       class="form-control" 
+                                       th:class="${#fields.hasErrors('email')} ? 'form-control is-invalid' : 'form-control'"
+                                       id="email" 
+                                       th:field="*{email}" 
+                                       placeholder="이메일 주소를 입력하세요"
+                                       required>
+                                <div th:if="${#fields.hasErrors('email')}" class="error-message">
+                                    <span th:errors="*{email}"></span>
+                                </div>
+                            </div>
+                            
+                            
+                            <!-- Buttons -->
+                            <div class="d-flex justify-content-between">
+                                <a href="/students" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> 목록으로
+                                </a>
+                                <div>
+                                    <button type="button" class="btn btn-outline-secondary me-2" onclick="resetForm()">
+                                        <i class="fas fa-undo"></i> 초기화
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> 
+                                        <span th:text="${student.id != null ? '수정' : '등록'}">등록</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-light mt-auto">
+        <div class="container text-center">
+            <p class="mb-0 text-muted">© 2025 학생 관리 시스템. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Form validation
+            $('form').on('submit', function(e) {
+                let isValid = true;
+                
+                // Name validation
+                const name = $('#name').val().trim();
+                if (!name) {
+                    markFieldAsInvalid('#name', '이름은 필수 입력 사항입니다.');
+                    isValid = false;
+                } else {
+                    markFieldAsValid('#name');
+                }
+                
+                // Email validation
+                const email = $('#email').val().trim();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!email) {
+                    markFieldAsInvalid('#email', '이메일은 필수 입력 사항입니다.');
+                    isValid = false;
+                } else if (!emailRegex.test(email)) {
+                    markFieldAsInvalid('#email', '올바른 이메일 형식을 입력하세요.');
+                    isValid = false;
+                } else {
+                    markFieldAsValid('#email');
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Real-time validation
+            $('#name, #email').on('blur', function() {
+                validateField(this);
+            });
+            
+            $('#name, #email').on('input', function() {
+                if ($(this).hasClass('is-invalid')) {
+                    validateField(this);
+                }
+            });
+        });
+        
+        function validateField(field) {
+            const $field = $(field);
+            const value = $field.val().trim();
+            
+            if (field.id === 'name') {
+                if (!value) {
+                    markFieldAsInvalid('#name', '이름은 필수 입력 사항입니다.');
+                } else {
+                    markFieldAsValid('#name');
+                }
+            } else if (field.id === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!value) {
+                    markFieldAsInvalid('#email', '이메일은 필수 입력 사항입니다.');
+                } else if (!emailRegex.test(value)) {
+                    markFieldAsInvalid('#email', '올바른 이메일 형식을 입력하세요.');
+                } else {
+                    markFieldAsValid('#email');
+                }
+            }
+        }
+        
+        function markFieldAsInvalid(selector, message) {
+            const $field = $(selector);
+            $field.addClass('is-invalid').removeClass('is-valid');
+            
+            let $errorDiv = $field.siblings('.error-message');
+            if ($errorDiv.length === 0) {
+                $errorDiv = $('<div class="error-message"></div>').insertAfter($field);
+            }
+            $errorDiv.text(message);
+        }
+        
+        function markFieldAsValid(selector) {
+            const $field = $(selector);
+            $field.removeClass('is-invalid').addClass('is-valid');
+            $field.siblings('.error-message').remove();
+        }
+        
+        function resetForm() {
+            if (confirm('입력한 내용이 모두 지워집니다. 계속하시겠습니까?')) {
+                $('form')[0].reset();
+                $('.form-control, .form-select').removeClass('is-invalid is-valid');
+                $('.error-message').remove();
+            }
+        }
+    </script>
+</body>
+</html>

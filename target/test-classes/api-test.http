@@ -1,0 +1,290 @@
+### International Media Academic Society API Tests
+
+### Base URL
+@baseUrl = http://localhost:8080/api
+
+### =============================================
+### MEMBER API TESTS
+### =============================================
+
+### Create a new member
+POST {{baseUrl}}/members
+Content-Type: application/json
+
+{
+  "name": "김철수",
+  "email": "chulsoo.kim@handong.edu",
+  "studentId": "22000123",
+  "department": "국제어문학부",
+  "phoneNumber": "010-1234-5678",
+  "role": "MEMBER",
+  "bio": "국제미디어 학회 신입회원입니다.",
+  "isActive": true
+}
+
+### Create another member (President)
+POST {{baseUrl}}/members
+Content-Type: application/json
+
+{
+  "name": "이영희",
+  "email": "younghee.lee@handong.edu",
+  "studentId": "21000456",
+  "department": "언론정보문화학부",
+  "phoneNumber": "010-9876-5432",
+  "role": "PRESIDENT",
+  "bio": "2024년도 국제미디어 학회장입니다.",
+  "isActive": true
+}
+
+### Create another member (Vice President)
+POST {{baseUrl}}/members
+Content-Type: application/json
+
+{
+  "name": "박민수",
+  "email": "minsoo.park@handong.edu",
+  "studentId": "21000789",
+  "department": "커뮤니케이션학부",
+  "phoneNumber": "010-5555-6666",
+  "role": "VICE_PRESIDENT",
+  "bio": "부회장으로 활동중입니다.",
+  "isActive": true
+}
+
+### Get all members
+GET {{baseUrl}}/members
+
+### Get member by ID
+GET {{baseUrl}}/members/1
+
+### Get member by email
+GET {{baseUrl}}/members/email/chulsoo.kim@handong.edu
+
+### Get active members
+GET {{baseUrl}}/members/active
+
+### Get members by role
+GET {{baseUrl}}/members/role/PRESIDENT
+
+### Get members by department
+GET {{baseUrl}}/members/department/국제어문학부
+
+### Update member
+PUT {{baseUrl}}/members/1
+Content-Type: application/json
+
+{
+  "name": "김철수",
+  "email": "chulsoo.kim@handong.edu",
+  "studentId": "22000123",
+  "department": "국제어문학부",
+  "phoneNumber": "010-1234-5678",
+  "role": "SECRETARY",
+  "bio": "국제미디어 학회 총무로 승진했습니다.",
+  "isActive": true
+}
+
+### Delete member
+DELETE {{baseUrl}}/members/3
+
+### =============================================
+### PROJECT API TESTS
+### =============================================
+
+### Create a new project
+POST {{baseUrl}}/projects
+Content-Type: application/json
+
+{
+  "title": "국제미디어 학회 웹사이트 리뉴얼",
+  "description": "학회 공식 웹사이트를 React와 Spring Boot를 사용하여 전면 개편합니다.",
+  "status": "IN_PROGRESS",
+  "startDate": "2024-03-01",
+  "endDate": "2024-06-30",
+  "projectUrl": "https://internationalmedia.handong.edu",
+  "githubUrl": "https://github.com/handong-im/website-renewal"
+}
+
+### Create another project
+POST {{baseUrl}}/projects
+Content-Type: application/json
+
+{
+  "title": "미디어 콘텐츠 아카이브 시스템",
+  "description": "학회에서 제작한 모든 미디어 콘텐츠를 체계적으로 관리하는 아카이브 시스템 구축",
+  "status": "PLANNED",
+  "startDate": "2024-07-01",
+  "endDate": "2024-12-31",
+  "projectUrl": "",
+  "githubUrl": "https://github.com/handong-im/media-archive"
+}
+
+### Create completed project
+POST {{baseUrl}}/projects
+Content-Type: application/json
+
+{
+  "title": "2023 국제미디어 페스티벌 홍보영상",
+  "description": "연례 미디어 페스티벌을 위한 홍보 영상 제작 프로젝트",
+  "status": "COMPLETED",
+  "startDate": "2023-09-01",
+  "endDate": "2023-11-30",
+  "projectUrl": "https://youtube.com/watch?v=example",
+  "githubUrl": ""
+}
+
+### Get all projects
+GET {{baseUrl}}/projects
+
+### Get project by ID
+GET {{baseUrl}}/projects/1
+
+### Get projects by status
+GET {{baseUrl}}/projects/status/IN_PROGRESS
+
+### Get projects by date range
+GET {{baseUrl}}/projects/date-range?startDate=2024-01-01&endDate=2024-12-31
+
+### Search projects by title
+GET {{baseUrl}}/projects/search?keyword=미디어
+
+### Add member to project
+POST {{baseUrl}}/projects/1/members/1
+
+### Add another member to project
+POST {{baseUrl}}/projects/1/members/2
+
+### Get projects by member
+GET {{baseUrl}}/projects/member/1
+
+### Update project
+PUT {{baseUrl}}/projects/1
+Content-Type: application/json
+
+{
+  "title": "국제미디어 학회 웹사이트 리뉴얼 v2.0",
+  "description": "학회 공식 웹사이트를 React와 Spring Boot를 사용하여 전면 개편합니다. 모바일 반응형 디자인 추가",
+  "status": "IN_PROGRESS",
+  "startDate": "2024-03-01",
+  "endDate": "2024-07-31",
+  "projectUrl": "https://internationalmedia.handong.edu",
+  "githubUrl": "https://github.com/handong-im/website-renewal"
+}
+
+### Remove member from project
+DELETE {{baseUrl}}/projects/1/members/2
+
+### Delete project
+DELETE {{baseUrl}}/projects/3
+
+### =============================================
+### EVENT API TESTS
+### =============================================
+
+### Create a new event
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "title": "2024 봄학기 신입회원 환영회",
+  "description": "새로운 학기를 맞아 신입회원들을 환영하는 오리엔테이션 및 네트워킹 행사",
+  "eventDate": "2024-03-15T18:00:00",
+  "location": "올네이션스홀 201호",
+  "eventType": "SOCIAL",
+  "status": "UPCOMING",
+  "maxParticipants": 50,
+  "registrationUrl": "https://forms.gle/example123"
+}
+
+### Create workshop event
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "title": "영상편집 기초 워크샵",
+  "description": "Adobe Premiere Pro를 활용한 영상편집 기초 교육",
+  "eventDate": "2024-04-20T14:00:00",
+  "location": "현동홀 컴퓨터실",
+  "eventType": "WORKSHOP",
+  "status": "UPCOMING",
+  "maxParticipants": 20,
+  "registrationUrl": "https://forms.gle/workshop456"
+}
+
+### Create seminar event
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "title": "미디어 산업 트렌드 세미나",
+  "description": "2024년 미디어 산업의 최신 트렌드와 전망에 대한 전문가 초청 세미나",
+  "eventDate": "2024-05-10T16:00:00",
+  "location": "올네이션스홀 대강당",
+  "eventType": "SEMINAR",
+  "status": "UPCOMING",
+  "maxParticipants": 100,
+  "registrationUrl": ""
+}
+
+### Get all events
+GET {{baseUrl}}/events
+
+### Get event by ID
+GET {{baseUrl}}/events/1
+
+### Get events by status
+GET {{baseUrl}}/events/status/UPCOMING
+
+### Get events by type
+GET {{baseUrl}}/events/type/WORKSHOP
+
+### Get events by date range
+GET {{baseUrl}}/events/date-range?start=2024-03-01T00:00:00&end=2024-06-30T23:59:59
+
+### Get upcoming events
+GET {{baseUrl}}/events/upcoming
+
+### Set event organizer
+PUT {{baseUrl}}/events/1/organizer/2
+
+### Add participant to event
+POST {{baseUrl}}/events/1/participants/1
+
+### Add another participant to event
+POST {{baseUrl}}/events/1/participants/3
+
+### Get events by organizer
+GET {{baseUrl}}/events/organizer/2
+
+### Get events by participant
+GET {{baseUrl}}/events/participant/1
+
+### Update event
+PUT {{baseUrl}}/events/1
+Content-Type: application/json
+
+{
+  "title": "2024 봄학기 신입회원 환영회 (장소 변경)",
+  "description": "새로운 학기를 맞아 신입회원들을 환영하는 오리엔테이션 및 네트워킹 행사",
+  "eventDate": "2024-03-15T18:00:00",
+  "location": "올네이션스홀 301호",
+  "eventType": "SOCIAL",
+  "status": "UPCOMING",
+  "maxParticipants": 60,
+  "registrationUrl": "https://forms.gle/example123"
+}
+
+### Remove participant from event
+DELETE {{baseUrl}}/events/1/participants/3
+
+### Delete event
+DELETE {{baseUrl}}/events/3
+
+### =============================================
+### H2 DATABASE CONSOLE
+### =============================================
+### Access H2 Console at: http://localhost:8080/h2-console
+### JDBC URL: jdbc:h2:mem:testdb
+### Username: sa
+### Password: (leave empty)
