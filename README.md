@@ -159,3 +159,6 @@ docker-compose down -v
 ## 📞 문의
 
 프로젝트에 대한 문의사항이 있으시면 이슈를 등록해주세요.
+
+<img width="1461" height="990" alt="image" src="https://github.com/user-attachments/assets/88421af6-4c2f-4421-a7b7-23cb7d707902" /><img width="1461" height="990" alt="image" src="https://github.com/user-attachments/assets/71044944-55bb-485d-883a-0dae265a3296" />
+
