@@ -16,11 +16,11 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Create the runtime image
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 
 # Create a non-root user for security
-RUN addgroup -g 1001 -S spring && \
-    adduser -S spring -u 1001 -G spring
+RUN groupadd -g 1001 spring && \
+    useradd -u 1001 -g spring spring
 
 # Set the working directory
 WORKDIR /app
@@ -42,7 +42,7 @@ ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:+UseContainerSupport"
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/api/members || exit 1
+  CMD curl -f http://localhost:8080/api/members || exit 1
 
 # Run the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

@@ -1,185 +1,161 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/SxatSNMX)
 
-# Handong International Media 학회 백엔드
+# 학생 관리 시스템 (Student Management System)
 
-## 프로젝트 소개
+Spring Boot와 MariaDB를 기반으로 한 학생 관리 웹 애플리케이션입니다.
 
-한동대학교 국제미디어 학회를 위한 백엔드 API 서버입니다. 회원 관리, 프로젝트 관리, 이벤트 관리 기능을 제공하며, RESTful API 형태로 구현되어 있습니다.
+## 📋 프로젝트 소개
 
-## 기술 스택
+이 프로젝트는 학생 정보를 효율적으로 관리하기 위한 웹 애플리케이션입니다. 학생 등록, 조회, 수정, 삭제 기능을 제공하며, 검색 및 페이징 기능을 포함하고 있습니다.
 
-- **Framework**: Spring Boot 3.2.5
-- **Language**: Java 17
-- **Build Tool**: Maven
-- **Database**: H2 (In-Memory Database)
-- **ORM**: Spring Data JPA
-- **기타**: Lombok
+## 🛠 기술 스택
 
-## 실행 방법
+- **Backend**
+  - Java 17
+  - Spring Boot 3.2.5
+  - Spring Data JPA
+  - Spring Validation
+  
+- **Database**
+  - MariaDB (최신 버전)
+  
+- **Frontend**
+  - Thymeleaf 템플릿 엔진
+  - Bootstrap 5.3.0
+  - jQuery 3.6.4
+  
+- **API Documentation**
+  - Swagger/OpenAPI 3.0
+
+- **Infrastructure**
+  - Docker & Docker Compose
+  - Maven
+
+## 🚀 실행 방법
 
 ### 사전 요구사항
 - Java 17 이상
-- Maven 3.6 이상
+- Docker & Docker Compose
+- Maven (또는 Maven Wrapper 사용)
 
-### 실행 명령어
+### 1. MariaDB 실행 (Docker Compose)
 
 ```bash
-# 프로젝트 빌드
-mvn clean install
+# MariaDB 컨테이너 시작
+docker-compose up -d
 
-# 애플리케이션 실행
+# 컨테이너 상태 확인
+docker-compose ps
+```
+
+### 2. Spring Boot 애플리케이션 실행
+
+```bash
+# Maven Wrapper 사용
+./mvnw spring-boot:run
+
+# 또는 Maven 직접 사용
 mvn spring-boot:run
 ```
 
-애플리케이션은 기본적으로 `http://localhost:8080`에서 실행됩니다.
+애플리케이션은 `http://localhost:8080`에서 실행됩니다.
 
-## API 엔드포인트 목록
+## 📑 주요 기능
 
-### Member API
+- **학생 관리**
+  - 학생 등록 (이름, 이메일)
+  - 학생 목록 조회 (페이징 지원)
+  - 학생 상세 정보 조회
+  - 학생 정보 수정
+  - 학생 삭제
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/members` | 새 회원 생성 |
-| GET | `/api/members` | 모든 회원 조회 |
-| GET | `/api/members/{id}` | ID로 회원 조회 |
-| GET | `/api/members/email/{email}` | 이메일로 회원 조회 |
-| GET | `/api/members/active` | 활성 회원 조회 |
-| GET | `/api/members/role/{role}` | 역할별 회원 조회 |
-| GET | `/api/members/department/{department}` | 부서별 회원 조회 |
-| PUT | `/api/members/{id}` | 회원 정보 수정 |
-| DELETE | `/api/members/{id}` | 회원 삭제 |
+- **검색 기능**
+  - 이름으로 검색
+  - 이메일로 검색
+  - 검색 결과 하이라이팅
 
-### Project API
+- **UI/UX**
+  - 반응형 웹 디자인 (Bootstrap)
+  - 클라이언트 사이드 유효성 검증
+  - 삭제 확인 다이얼로그
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/projects` | 새 프로젝트 생성 |
-| GET | `/api/projects` | 모든 프로젝트 조회 |
-| GET | `/api/projects/{id}` | ID로 프로젝트 조회 |
-| GET | `/api/projects/status/{status}` | 상태별 프로젝트 조회 |
-| GET | `/api/projects/date-range` | 날짜 범위로 프로젝트 조회 |
-| GET | `/api/projects/member/{memberId}` | 특정 회원의 프로젝트 조회 |
-| GET | `/api/projects/search?keyword={keyword}` | 제목으로 프로젝트 검색 |
-| PUT | `/api/projects/{id}` | 프로젝트 정보 수정 |
-| POST | `/api/projects/{projectId}/members/{memberId}` | 프로젝트에 회원 추가 |
-| DELETE | `/api/projects/{projectId}/members/{memberId}` | 프로젝트에서 회원 제거 |
-| DELETE | `/api/projects/{id}` | 프로젝트 삭제 |
+## 🔗 API 엔드포인트
 
-### Event API
+### Web UI 엔드포인트
+- `GET /students` - 학생 목록 페이지
+- `GET /students/new` - 학생 등록 폼
+- `POST /students` - 학생 등록 처리
+- `GET /students/{id}` - 학생 상세 페이지
+- `GET /students/edit/{id}` - 학생 수정 폼
+- `POST /students/edit/{id}` - 학생 정보 수정 처리
+- `POST /students/delete/{id}` - 학생 삭제 처리
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/events` | 새 이벤트 생성 |
-| GET | `/api/events` | 모든 이벤트 조회 |
-| GET | `/api/events/{id}` | ID로 이벤트 조회 |
-| GET | `/api/events/status/{status}` | 상태별 이벤트 조회 |
-| GET | `/api/events/type/{type}` | 유형별 이벤트 조회 |
-| GET | `/api/events/date-range` | 날짜 범위로 이벤트 조회 |
-| GET | `/api/events/organizer/{organizerId}` | 주최자별 이벤트 조회 |
-| GET | `/api/events/participant/{memberId}` | 참가자별 이벤트 조회 |
-| GET | `/api/events/upcoming` | 예정된 이벤트 조회 |
-| PUT | `/api/events/{id}` | 이벤트 정보 수정 |
-| PUT | `/api/events/{eventId}/organizer/{organizerId}` | 이벤트 주최자 설정 |
-| POST | `/api/events/{eventId}/participants/{memberId}` | 이벤트 참가자 추가 |
-| DELETE | `/api/events/{eventId}/participants/{memberId}` | 이벤트 참가자 제거 |
-| DELETE | `/api/events/{id}` | 이벤트 삭제 |
+### REST API 엔드포인트
+- `GET /api/students` - 학생 목록 조회 (JSON)
+- `GET /api/students/{id}` - 학생 상세 조회 (JSON)
+- `POST /api/students` - 학생 등록 (JSON)
+- `PUT /api/students/{id}` - 학생 수정 (JSON)
+- `DELETE /api/students/{id}` - 학생 삭제 (JSON)
+- `GET /api/students/email/{email}` - 이메일로 학생 조회 (JSON)
 
-## H2 콘솔 접속 방법
+### Swagger UI
+API 문서는 `http://localhost:8080/swagger-ui.html`에서 확인할 수 있습니다.
 
-H2 데이터베이스 콘솔은 애플리케이션 실행 후 웹 브라우저를 통해 접속할 수 있습니다.
+## 📸 스크린샷
 
-### 접속 정보
-- **URL**: `http://localhost:8080/h2-console`
-- **JDBC URL**: `jdbc:h2:mem:testdb`
-- **Username**: `sa`
-- **Password**: (비워두기)
+(스크린샷 위치)
+- 학생 목록 페이지
+- 학생 등록 폼
+- 학생 상세 정보
+- 검색 결과
 
-### 주요 테이블
-- `MEMBERS`: 회원 정보
-- `PROJECTS`: 프로젝트 정보
-- `EVENTS`: 이벤트 정보
-- `PROJECT_MEMBERS`: 프로젝트-회원 연결 테이블
-- `EVENT_PARTICIPANTS`: 이벤트-참가자 연결 테이블
+## 🗄 데이터베이스 설정
 
-## 데이터 모델
+### MariaDB 연결 정보
+- Host: localhost
+- Port: 3306
+- Database: school
+- Username: root
+- Password: 1234
 
-### Member Entity
-- 회원 기본 정보 (이름, 이메일, 학번, 학과 등)
-- 역할 (PRESIDENT, VICE_PRESIDENT, SECRETARY, TREASURER, MEMBER)
-- 활동 상태
-
-### Project Entity
-- 프로젝트 정보 (제목, 설명, 기간 등)
-- 상태 (PLANNED, IN_PROGRESS, COMPLETED, ON_HOLD, CANCELLED)
-- 참여 회원 목록 (다대다 관계)
-
-### Event Entity
-- 이벤트 정보 (제목, 설명, 일시, 장소 등)
-- 유형 (WORKSHOP, SEMINAR, CONFERENCE, SOCIAL, MEETING, COMPETITION)
-- 상태 (UPCOMING, ONGOING, COMPLETED, CANCELLED)
-- 주최자 및 참가자 정보
-
-## Docker 실행
-
-### Docker 빌드 및 실행
-
-#### 쉘 스크립트 사용 (권장)
-```bash
-# Docker 이미지 빌드
-./build.sh
-
-# Docker 컨테이너 실행 (백그라운드)
-./run.sh -d
-
-# 컨테이너 상태 확인
-./run.sh --status
-
-# 로그 확인
-./run.sh --logs
-
-# 컨테이너 중지
-./run.sh --stop
-```
-
-#### 직접 Docker 명령어 사용
-```bash
-# Docker 이미지 빌드
-docker build -t international-media-api .
-
-# Docker 컨테이너 실행
-docker run -p 8080:8080 international-media-api
-```
-
-### Docker Compose 실행
+### Docker Compose 사용법
 
 ```bash
-# Docker Compose로 실행 (H2 데이터베이스 포함)
+# 컨테이너 시작
 docker-compose up -d
 
 # 로그 확인
-docker-compose logs -f
+docker-compose logs -f mariadb
 
-# 특정 서비스 로그 확인
-docker-compose logs -f app
-docker-compose logs -f h2-database
-
-# 종료
+# 컨테이너 중지
 docker-compose down
 
-# 볼륨까지 삭제 (데이터 초기화)
+# 컨테이너 및 볼륨 삭제
 docker-compose down -v
 ```
 
-#### 서비스 접속 정보
-- **Spring Boot App**: `http://localhost:8080`
-- **H2 Console (앱 내)**: `http://localhost:8080/h2-console`
-- **H2 Console (독립)**: `http://localhost:8082`
-- **H2 TCP Server**: `localhost:9092`
+## 🧪 테스트 데이터
 
-## API 테스트
+애플리케이션 시작 시 `src/main/resources/data.sql` 파일의 초기 데이터가 자동으로 로드됩니다.
 
-### HTTP 클라이언트 테스트
-`src/test/resources/api-test.http` 파일에 모든 API 엔드포인트에 대한 테스트 예제가 포함되어 있습니다. IntelliJ IDEA의 HTTP Client 또는 VS Code의 REST Client 확장을 사용하여 테스트할 수 있습니다.
+## 📝 개발 참고사항
 
-### Postman 테스트
-`International_Media_API.postman_collection.json` 파일을 Postman에서 Import하여 모든 API 엔드포인트를 테스트할 수 있습니다.
+- Thymeleaf 캐시는 개발 모드에서 비활성화되어 있습니다.
+- JPA DDL-auto는 `update`로 설정되어 있어 스키마가 자동으로 생성/업데이트됩니다.
+- 모든 날짜/시간은 시스템 기본 시간대를 사용합니다.
+
+## 🐛 문제 해결
+
+### MariaDB 연결 오류
+1. Docker 컨테이너가 실행 중인지 확인: `docker-compose ps`
+2. 포트 3306이 다른 프로세스에서 사용 중인지 확인
+3. application.properties의 데이터베이스 연결 정보 확인
+
+### 애플리케이션 시작 오류
+1. Java 버전 확인: `java -version` (Java 17 이상 필요)
+2. Maven 의존성 재설치: `./mvnw clean install`
+3. 로그에서 상세 오류 메시지 확인
+
+## 📞 문의
+
+프로젝트에 대한 문의사항이 있으시면 이슈를 등록해주세요.
