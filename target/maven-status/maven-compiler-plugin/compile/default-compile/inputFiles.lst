@@ -6,6 +6,7 @@
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/service/CloudinaryService.java
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/service/StudentService.java
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/controller/StudentController.java
+/Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/config/WebConfig.java
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/repository/UserRepository.java
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/controller/ArticleRestController.java
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/config/CorsConfig.java

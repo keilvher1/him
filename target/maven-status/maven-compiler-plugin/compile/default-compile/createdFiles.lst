@@ -14,8 +14,10 @@ com/handong/internationalmedia/entity/Student$StudentBuilder.class
 com/handong/internationalmedia/InternationalMediaApplication.class
 com/handong/internationalmedia/dto/RegisterRequest.class
 com/handong/internationalmedia/controller/AuthController$ErrorResponse.class
+com/handong/internationalmedia/config/WebConfig.class
 com/handong/internationalmedia/controller/HomeController.class
 com/handong/internationalmedia/controller/AuthController$LoginResponse.class
+com/handong/internationalmedia/config/WebConfig$1.class
 com/handong/internationalmedia/service/StudentService.class
 com/handong/internationalmedia/entity/Article.class
 com/handong/internationalmedia/controller/AdminController.class
