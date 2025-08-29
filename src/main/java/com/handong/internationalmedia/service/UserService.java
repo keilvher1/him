@@ -63,4 +63,13 @@ public class UserService implements UserDetailsService {
     public boolean isAdmin(User user) {
         return user != null && user.getRole() == User.Role.ADMIN;
     }
+    
+    public boolean hasAdminUsers() {
+        return userRepository.existsByRole(User.Role.ADMIN);
+    }
+    
+    @Transactional
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 }
