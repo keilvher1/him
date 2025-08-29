@@ -13,12 +13,20 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class CloudinaryService {
     
     private final Cloudinary cloudinary;
     
+    public CloudinaryService(Cloudinary cloudinary) {
+        this.cloudinary = cloudinary;
+    }
+    
     public String uploadImage(MultipartFile file) {
+        if (cloudinary == null) {
+            log.warn("Cloudinary not configured, skipping image upload");
+            return null; // 이미지 업로드 없이 진행
+        }
+        
         try {
             String originalFilename = file.getOriginalFilename();
             String fileName = UUID.randomUUID().toString() + "-" + originalFilename;
