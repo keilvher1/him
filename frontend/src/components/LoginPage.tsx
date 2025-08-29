@@ -140,17 +140,6 @@ const LoginPage: React.FC = () => {
             </div>
           </form>
 
-          <div className="mt-6">
-            <div className="border-t border-gray-200 pt-6">
-              <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
-                <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Accounts</h3>
-                <div className="text-xs text-blue-600 space-y-1">
-                  <p><strong>Admin:</strong> admin / admin123</p>
-                  <p><strong>Editor:</strong> editor / admin123</p>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div className="mt-6 text-center">
             <Link 
