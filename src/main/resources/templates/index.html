@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIM - Handong International Media</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-red: #E60012;
+            --primary-red-hover: #CC0010;
+            --primary-red-light: #FFE5E7;
+            --text-dark: #1A1A1A;
+            --text-gray: #6B7280;
+            --text-light: #9CA3AF;
+            --border-light: #E5E7EB;
+            --bg-light: #F9FAFB;
+            --bg-gray: #F3F4F6;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #FFFFFF;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Header Styles */
+        .top-bar {
+            background: white;
+            border-bottom: 1px solid var(--border-light);
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+        
+        .main-header {
+            background: white;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .logo {
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--text-dark);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            text-transform: lowercase;
+        }
+        
+        .logo:hover {
+            color: var(--text-dark);
+        }
+        
+        .logo-subtitle {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--text-gray);
+            margin-top: -8px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        
+        .search-box {
+            position: relative;
+            max-width: 300px;
+        }
+        
+        .search-box input {
+            border: 2px solid var(--border-light);
+            border-radius: 25px;
+            padding: 10px 40px 10px 20px;
+            font-size: 14px;
+            width: 100%;
+            transition: all 0.2s;
+            background-color: var(--bg-light);
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            background-color: white;
+        }
+        
+        .search-box .search-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-gray);
+        }
+        
+        /* Navigation */
+        .main-nav {
+            background: white;
+            border-bottom: 1px solid var(--border-light);
+            padding: 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links li {
+            margin: 0;
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 16px 24px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--primary-red);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: var(--primary-red);
+        }
+        
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            padding: 40px 0;
+        }
+        
+        .main-story {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            height: 550px;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .main-story img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .story-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.9) 100%);
+            padding: 60px 40px 40px;
+            color: white;
+        }
+        
+        .story-category {
+            background: var(--primary-red);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        
+        .story-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        
+        .story-excerpt {
+            font-size: 16px;
+            line-height: 1.5;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .story-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .story-author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .social-share {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .social-share a {
+            color: white;
+            font-size: 16px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .social-share a:hover {
+            opacity: 1;
+        }
+        
+        /* Article Cards */
+        .article-grid {
+            margin-top: 60px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+        
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            text-decoration: none;
+            color: inherit;
+            border-color: transparent;
+        }
+        
+        .card-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .article-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+        
+        .card-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(230, 0, 18, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            letter-spacing: -0.01em;
+        }
+        
+        .card-excerpt {
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+        
+        .read-time {
+            background: var(--primary-red-light);
+            color: var(--primary-red);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 11px;
+        }
+        
+        /* Footer */
+        .main-footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 50px 0 30px;
+            margin-top: 80px;
+        }
+        
+        .footer-brand {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .footer-subtitle {
+            font-size: 10px;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .social-icons a:hover {
+            opacity: 1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .story-title {
+                font-size: 24px;
+            }
+            
+            .logo {
+                font-size: 28px;
+            }
+            
+            .search-box {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span id="currentDate"></span>
+                    <span class="ms-3">Seoul <span id="currentWeather">18°C</span></span>
+                </div>
+                <div class="col-md-6 text-end">
+                    <!-- Optional: Login/Register links -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <a href="/" class="logo">
+                        him
+                        <div class="logo-subtitle">HANDONG<br>INTERNATIONAL<br>MEDIA</div>
+                    </a>
+                </div>
+                <div class="col-md-4 text-center">
+                    <!-- Optional: Additional branding -->
+                </div>
+                <div class="col-md-4">
+                    <div class="search-box ms-auto">
+                        <form action="/search" method="get">
+                            <input type="text" name="q" placeholder="Search..." class="form-control">
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="/category/National" class="nav-link">National</a></li>
+                    <li><a href="/category/Politics" class="nav-link">Politics</a></li>
+                    <li><a href="/category/Business" class="nav-link">Business</a></li>
+                    <li><a href="/category/Finance" class="nav-link">Finance</a></li>
+                    <li><a href="/category/Lifestyle" class="nav-link">Lifestyle</a></li>
+                    <li><a href="/category/Sports" class="nav-link">Sports</a></li>
+                    <li><a href="/category/World" class="nav-link">World</a></li>
+                    <li><a href="/category/Videos" class="nav-link">Videos</a></li>
+                    <li><a href="/category/Entertainment & Arts" class="nav-link">Entertainment & Arts</a></li>
+                    <li><a href="/articles" class="nav-link">All</a></li>
+                    <li><a href="/admin/articles/new" class="nav-link" style="color: var(--primary-red); font-weight: 600;">+ Write</a></li>
+                </ul>
+                <button class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div th:if="${featuredArticles != null and !featuredArticles.empty}" class="main-story">
+                        <div th:with="mainArticle=${featuredArticles[0]}">
+                            <img th:src="${mainArticle.featuredImage != null ? mainArticle.featuredImage : '/images/default-article.jpg'}" 
+                                 th:alt="${mainArticle.title}">
+                            <div class="story-overlay">
+                                <span class="story-category" th:text="${mainArticle.category?.name ?: 'News'}">Life</span>
+                                <h1 class="story-title" th:text="${mainArticle.title}">Government concerned about the low birthrate in the country</h1>
+                                <p class="story-excerpt" th:text="${mainArticle.summary}">
+                                    South Korea faces a pressing demographic issue with its persistently low birthrate...
+                                </p>
+                                <div class="story-meta">
+                                    <div class="story-author">
+                                        <span>By</span>
+                                        <strong th:text="${mainArticle.author ?: 'HIM Editorial'}">Yewon Kim</strong>
+                                    </div>
+                                </div>
+                                <div class="social-share">
+                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fas fa-share"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Optional: Side articles or widgets -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- You will also like Section -->
+    <section class="article-grid">
+        <div class="container">
+            <h2 class="section-title">You will also like</h2>
+            <div class="row">
+                <div th:each="article, iterStat : ${latestArticles}" th:if="${iterStat.index < 5}" class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <a th:href="@{/articles/{id}(id=${article.id})}" class="article-card d-block">
+                        <div class="card-image">
+                            <img th:src="${article.featuredImage != null ? article.featuredImage : '/images/default-article.jpg'}" 
+                                 th:alt="${article.title}">
+                            <span class="card-category" th:text="${article.category?.name ?: 'News'}">Health</span>
+                        </div>
+                        <div class="card-content">
+                            <h5 class="card-title" th:text="${article.title}">Article title here</h5>
+                            <div class="card-meta">
+                                <span th:text="${#temporals.format(article.publishedAt, 'MMM dd')}">May 5</span>
+                                <span class="read-time" th:text="${article.readTime != null ? article.readTime + ' min' : '2 min'}">2:31</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles by Category Sections -->
+    <div th:each="category : ${categories}" th:if="${category.name != 'Videos'}" class="article-grid">
+        <div class="container">
+            <h2 class="section-title" th:text="${category.name}">Category Name</h2>
+            <div class="row">
+                <div th:each="article, iterStat : ${latestArticles}" th:if="${iterStat.index < 5}" class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <a th:href="@{/articles/{id}(id=${article.id})}" class="article-card d-block">
+                        <div class="card-image">
+                            <img th:src="${article.featuredImage != null ? article.featuredImage : '/images/default-article.jpg'}" 
+                                 th:alt="${article.title}">
+                            <span class="card-category" th:text="${article.category?.name ?: 'News'}">Category</span>
+                        </div>
+                        <div class="card-content">
+                            <h5 class="card-title" th:text="${article.title}">Article title here</h5>
+                            <div class="card-meta">
+                                <span th:text="${#temporals.format(article.publishedAt, 'MMM dd')}">May 5</span>
+                                <span class="read-time" th:text="${article.readTime != null ? article.readTime + ' min' : '2 min'}">2:31</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 mb-4">
+                    <div class="footer-brand">him</div>
+                    <div class="footer-subtitle">HANDONG<br>INTERNATIONAL<br>MEDIA</div>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-share"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h6>About HIM</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Who are we?</a></li>
+                        <li><a href="#">What we do</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h6>News</h6>
+                    <ul class="footer-links">
+                        <li><a href="/category/National">National</a></li>
+                        <li><a href="/category/Politics">Politics</a></li>
+                        <li><a href="/category/Business">Business</a></li>
+                        <li><a href="/category/Finance">Finance</a></li>
+                        <li><a href="/category/Lifestyle">Lifestyle</a></li>
+                        <li><a href="/category/Sports">Sports</a></li>
+                        <li><a href="/category/World">World</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h6>Policy</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy statement</a></li>
+                        <li><a href="#">Code of ethics</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Copyright policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy;2024 Handong International Media | All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Mobile navigation toggle
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        // Search functionality
+        document.querySelector('.search-box form').addEventListener('submit', function(e) {
+            const searchInput = this.querySelector('input[name="q"]');
+            if (!searchInput.value.trim()) {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+        
+        // Update current date
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', options);
+        
+        // Active navigation
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

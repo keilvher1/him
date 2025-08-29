@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${article.title + ' - HIM'}">Article Title - HIM</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-red: #FF0000;
+            --text-dark: #2c2c2c;
+            --text-gray: #666666;
+            --border-light: #e5e5e5;
+            --bg-light: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+        
+        /* Header Styles */
+        .top-bar {
+            background: white;
+            border-bottom: 1px solid var(--border-light);
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+        
+        .main-header {
+            background: white;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .logo {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+        
+        .logo:hover {
+            color: var(--text-dark);
+        }
+        
+        .logo-subtitle {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+            margin-top: -5px;
+        }
+        
+        .search-box {
+            position: relative;
+            max-width: 300px;
+        }
+        
+        .search-box input {
+            border: 1px solid var(--border-light);
+            border-radius: 25px;
+            padding: 8px 40px 8px 20px;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .search-box .search-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-gray);
+        }
+        
+        /* Navigation */
+        .main-nav {
+            background: white;
+            border-bottom: 1px solid var(--border-light);
+            padding: 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links li {
+            margin: 0;
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+        
+        .nav-links a.active {
+            color: var(--primary-red);
+        }
+        
+        /* Article Detail Styles */
+        .article-detail {
+            padding: 40px 0;
+        }
+        
+        .article-category {
+            background: var(--primary-red);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .article-title {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+        
+        .article-featured-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+        
+        .article-author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .article-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+        }
+        
+        .article-content p {
+            margin-bottom: 24px;
+        }
+        
+        .article-content h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 40px 0 20px;
+            color: var(--text-dark);
+        }
+        
+        .article-content h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 32px 0 16px;
+            color: var(--text-dark);
+        }
+        
+        .social-share {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .social-share a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-light);
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-share a:hover {
+            background: var(--primary-red);
+            color: white;
+        }
+        
+        /* Related Articles */
+        .related-articles {
+            padding: 60px 0;
+            background: var(--bg-light);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .card-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .article-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+        
+        .card-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary-red);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        
+        .card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+        
+        .read-time {
+            background: var(--bg-light);
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        
+        /* Footer */
+        .main-footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 50px 0 30px;
+        }
+        
+        .footer-brand {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .footer-subtitle {
+            font-size: 10px;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .social-icons a:hover {
+            opacity: 1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 32px;
+            }
+            
+            .article-content {
+                font-size: 16px;
+            }
+            
+            .logo {
+                font-size: 28px;
+            }
+            
+            .search-box {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span>Sunday, May 5 2024</span>
+                    <span class="ms-3">Seoul 18°C</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <a href="/" class="logo">
+                        him
+                        <div class="logo-subtitle">HANDONG<br>INTERNATIONAL<br>MEDIA</div>
+                    </a>
+                </div>
+                <div class="col-md-4 text-center">
+                    <!-- Optional: Additional branding -->
+                </div>
+                <div class="col-md-4">
+                    <div class="search-box ms-auto">
+                        <form action="/search" method="get">
+                            <input type="text" name="q" placeholder="Search..." class="form-control">
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="/category/National" class="nav-link">National</a></li>
+                    <li><a href="/category/Politics" class="nav-link">Politics</a></li>
+                    <li><a href="/category/Business" class="nav-link">Business</a></li>
+                    <li><a href="/category/Finance" class="nav-link">Finance</a></li>
+                    <li><a href="/category/Lifestyle" class="nav-link">Lifestyle</a></li>
+                    <li><a href="/category/Sports" class="nav-link">Sports</a></li>
+                    <li><a href="/category/World" class="nav-link">World</a></li>
+                    <li><a href="/category/Videos" class="nav-link">Videos</a></li>
+                    <li><a href="/category/Entertainment & Arts" class="nav-link">Entertainment & Arts</a></li>
+                    <li><a href="/articles" class="nav-link">All</a></li>
+                    <li><a href="/admin/articles/new" class="nav-link" style="color: var(--primary-red); font-weight: 600;">+ Write</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Detail -->
+    <main class="article-detail">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <article>
+                        <span class="article-category" th:text="${article.category?.name ?: 'News'}">Finance</span>
+                        <h1 class="article-title" th:text="${article.title}">Is Apple performing Monopoly?</h1>
+                        
+                        <img th:if="${article.featuredImage}" 
+                             th:src="${article.featuredImage}" 
+                             th:alt="${article.title}"
+                             class="article-featured-image">
+                        
+                        <div class="article-meta">
+                            <div class="article-author">
+                                <span>By</span>
+                                <strong th:text="${article.author ?: 'HIM Editorial'}">Yewon Kim</strong>
+                            </div>
+                            <span th:text="${#temporals.format(article.publishedAt, 'MMMM dd, yyyy')}">May 5, 2024</span>
+                            <span th:if="${article.readTime}" th:text="${article.readTime + ' minutes to read'}">5 minutes to read</span>
+                        </div>
+                        
+                        <div class="article-content" th:utext="${article.content}">
+                            <p>Founded in 1976, Apple Inc. is a leader in the consumer electronics industry, known for its iconic products such as the iPhone and Macintosh computers. Renowned for its elegant design and cutting-edge technology, Apple sets the standard for innovation. However, the company has recently been sued by the U.S Department of Justice.</p>
+                            
+                            <p>The DoJ sued Apple for monopolizing the smartphone market, posing a significant challenge for the country's launch of its brand-new product. The lawsuit alleges that Apple has unlawfully maintained its monopoly power on the grounds against the tech giant Apple. Finally, there is the exclusivity of AppStore. Apple introduced AppPlay as a security measure for users and did not allow third-party applications to access the chip that enables the iPhone to make mobile payments. Consequently, users were forced to stick with iPhones, making it harder for consumers to switch to alternative brands such as Android rivals, such as smart watches, less useful than the Apple Watch. Apple was not the first to produce smartwatches. However, other companies that entered the smartwatch market earlier were rendered irrelevant due to Apple's strategy of making the Apple Watch with the iPhone. Lastly, the iPhone only allows users to download apps from Apple's proprietary App Store, a practice that resembles a monopoly.</p>
+                            
+                            <p>Analysts predict that Apple is preparing a counter-attack in AI, and other analysts suggest that Apple's weakening presence in the Chinese market could quickly grow in the AI market. Apple faces a significant challenge in the generation of AI. Not only should the Department of Justice think carefully about this situation, but smartphone users should also consider whether Apple is the right company for their AI future.</p>
+                        </div>
+                        
+                        <div class="social-share">
+                            <a href="#" title="Share on Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" title="Share"><i class="fas fa-share"></i></a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Related Articles -->
+    <section class="related-articles">
+        <div class="container">
+            <h2 class="section-title">You will also like</h2>
+            <div class="row">
+                <div th:each="relatedArticle, iterStat : ${relatedArticles}" th:if="${iterStat.index < 5}" class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <a th:href="@{/articles/{id}(id=${relatedArticle.id})}" class="article-card d-block">
+                        <div class="card-image">
+                            <img th:src="${relatedArticle.featuredImage != null ? relatedArticle.featuredImage : '/images/default-article.jpg'}" 
+                                 th:alt="${relatedArticle.title}">
+                            <span class="card-category" th:text="${relatedArticle.category?.name ?: 'News'}">Health</span>
+                        </div>
+                        <div class="card-content">
+                            <h5 class="card-title" th:text="${relatedArticle.title}">Article title here</h5>
+                            <div class="card-meta">
+                                <span th:text="${#temporals.format(relatedArticle.publishedAt, 'MMM dd')}">May 5</span>
+                                <span class="read-time" th:text="${relatedArticle.readTime != null ? relatedArticle.readTime + ' min' : '2 min'}">2:31</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 mb-4">
+                    <div class="footer-brand">him</div>
+                    <div class="footer-subtitle">HANDONG<br>INTERNATIONAL<br>MEDIA</div>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-share"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h6>About HIM</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Who are we?</a></li>
+                        <li><a href="#">What we do</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h6>News</h6>
+                    <ul class="footer-links">
+                        <li><a href="/category/National">National</a></li>
+                        <li><a href="/category/Politics">Politics</a></li>
+                        <li><a href="/category/Business">Business</a></li>
+                        <li><a href="/category/Finance">Finance</a></li>
+                        <li><a href="/category/Lifestyle">Lifestyle</a></li>
+                        <li><a href="/category/Sports">Sports</a></li>
+                        <li><a href="/category/World">World</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h6>Policy</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy statement</a></li>
+                        <li><a href="#">Code of ethics</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Copyright policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy;2024 Handong International Media | All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

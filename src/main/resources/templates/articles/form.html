@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit ? '기사 수정' : '새 기사 작성'} + ' - HIM'">기사 작성 - HIM</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Quill Editor CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-red: #FF0000;
+            --text-dark: #2c2c2c;
+            --text-gray: #666666;
+            --border-light: #e5e5e5;
+            --bg-light: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+        
+        /* Header Styles */
+        .main-header {
+            background: white;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+        
+        .logo:hover {
+            color: var(--text-dark);
+        }
+        
+        .logo-subtitle {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+            margin-top: -5px;
+        }
+        
+        /* Form Styles */
+        .article-form-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .form-header {
+            background: var(--primary-red);
+            color: white;
+            padding: 30px 40px;
+        }
+        
+        .form-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .form-subtitle {
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .form-body {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-control {
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.1);
+        }
+        
+        .form-select {
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-select:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.1);
+        }
+        
+        .textarea-large {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Quill Editor Styles */
+        .editor-container {
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .editor-container .ql-toolbar {
+            border: none;
+            border-bottom: 1px solid var(--border-light);
+            background: #fafafa;
+        }
+        
+        .editor-container .ql-container {
+            border: none;
+            font-size: 16px;
+            min-height: 400px;
+        }
+        
+        .editor-container .ql-editor {
+            min-height: 400px;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        
+        .editor-container:focus-within {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.1);
+        }
+        
+        /* Checkbox Styles */
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 4px;
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary-red);
+            border-color: var(--primary-red);
+        }
+        
+        .form-check-label {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin: 0;
+        }
+        
+        /* Button Styles */
+        .btn-group-custom {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-light);
+            margin-top: 40px;
+        }
+        
+        .btn-primary-custom {
+            background: var(--primary-red);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary-custom:hover {
+            background: #e60000;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary-custom {
+            background: var(--text-gray);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-secondary-custom:hover {
+            background: #555;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-outline-custom {
+            background: transparent;
+            border: 2px solid var(--border-light);
+            color: var(--text-gray);
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-outline-custom:hover {
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+        }
+        
+        /* Error Styles */
+        .invalid-feedback {
+            color: var(--primary-red);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .is-invalid {
+            border-color: var(--primary-red) !important;
+        }
+        
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Image Upload Styles */
+        .image-upload-area {
+            border: 2px dashed var(--border-light);
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #fafafa;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .image-upload-area:hover {
+            border-color: var(--primary-red);
+            background: #fff5f5;
+        }
+        
+        .image-upload-area.dragover {
+            border-color: var(--primary-red);
+            background: #fff5f5;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: var(--text-gray);
+            font-size: 16px;
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-body {
+                padding: 20px;
+            }
+            
+            .form-header {
+                padding: 20px;
+            }
+            
+            .form-title {
+                font-size: 24px;
+            }
+            
+            .btn-group-custom {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn-group-custom .btn-group {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <a href="/" class="logo">
+                        him
+                        <div class="logo-subtitle">HANDONG<br>INTERNATIONAL<br>MEDIA</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Article Form -->
+    <main class="container-fluid">
+        <div class="article-form-container">
+            <div class="form-header">
+                <h1 class="form-title" th:text="${isEdit ? '기사 수정' : '새 기사 작성'}">새 기사 작성</h1>
+                <p class="form-subtitle" th:text="${isEdit ? '기사 내용을 수정하세요' : 'HIM에 발행할 새로운 기사를 작성하세요'}">HIM에 발행할 새로운 기사를 작성하세요</p>
+            </div>
+            
+            <div class="form-body">
+                <!-- Success/Error Messages -->
+                <div th:if="${successMessage}" class="alert alert-success">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <span th:text="${successMessage}"></span>
+                </div>
+                
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <span th:text="${errorMessage}"></span>
+                </div>
+                
+                <form th:action="${isEdit ? '/admin/articles/edit/' + articleDto.id : '/admin/articles/new'}" 
+                      th:object="${articleDto}" method="post" enctype="multipart/form-data">
+                    
+                    <!-- Title -->
+                    <div class="form-group">
+                        <label for="title" class="form-label">제목 <span class="text-danger">*</span></label>
+                        <input type="text" 
+                               id="title" 
+                               th:field="*{title}"
+                               th:class="${#fields.hasErrors('title')} ? 'form-control is-invalid' : 'form-control'"
+                               placeholder="기사 제목을 입력하세요...">
+                        <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+                            <span th:errors="*{title}"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Category -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="categoryId" class="form-label">카테고리 <span class="text-danger">*</span></label>
+                                <select id="categoryId" 
+                                        th:field="*{categoryId}"
+                                        th:class="${#fields.hasErrors('categoryId')} ? 'form-select is-invalid' : 'form-select'">
+                                    <option value="">카테고리를 선택하세요</option>
+                                    <option th:each="category : ${categories}" 
+                                            th:value="${category.id}" 
+                                            th:text="${category.name}">National</option>
+                                </select>
+                                <div th:if="${#fields.hasErrors('categoryId')}" class="invalid-feedback">
+                                    <span th:errors="*{categoryId}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="author" class="form-label">작성자</label>
+                                <input type="text" 
+                                       id="author" 
+                                       th:field="*{author}"
+                                       class="form-control"
+                                       placeholder="작성자 이름 (선택사항)">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Summary -->
+                    <div class="form-group">
+                        <label for="summary" class="form-label">요약</label>
+                        <textarea id="summary" 
+                                  th:field="*{summary}"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="기사의 간단한 요약을 작성하세요... (SEO 및 미리보기에 사용됩니다)"></textarea>
+                    </div>
+                    
+                    <!-- Featured Image -->
+                    <div class="form-group">
+                        <label for="featuredImage" class="form-label">대표 이미지</label>
+                        <div class="image-upload-area" id="imageUploadArea">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">
+                                <strong>클릭하여 이미지를 업로드하거나</strong><br>
+                                이미지를 여기로 드래그하세요
+                            </div>
+                            <input type="url" 
+                                   id="featuredImage" 
+                                   th:field="*{featuredImage}"
+                                   class="form-control mt-3"
+                                   placeholder="또는 이미지 URL을 입력하세요...">
+                        </div>
+                        <img th:if="${articleDto.featuredImage}" 
+                             th:src="${articleDto.featuredImage}" 
+                             class="image-preview" 
+                             alt="미리보기">
+                    </div>
+                    
+                    <!-- Content Editor -->
+                    <div class="form-group">
+                        <label for="content" class="form-label">기사 내용 <span class="text-danger">*</span></label>
+                        <div class="editor-container">
+                            <div id="editor"></div>
+                        </div>
+                        <textarea id="content" 
+                                  th:field="*{content}"
+                                  style="display: none;"></textarea>
+                        <div th:if="${#fields.hasErrors('content')}" class="invalid-feedback d-block">
+                            <span th:errors="*{content}"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Options -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="readTime" class="form-label">읽기 시간 (분)</label>
+                                <input type="number" 
+                                       id="readTime" 
+                                       th:field="*{readTime}"
+                                       class="form-control"
+                                       min="1"
+                                       max="60"
+                                       placeholder="예: 5">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">옵션</label>
+                                <div class="form-check">
+                                    <input type="checkbox" 
+                                           id="isFeatured" 
+                                           th:field="*{isFeatured}"
+                                           class="form-check-input">
+                                    <label for="isFeatured" class="form-check-label">주요 기사로 설정</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" 
+                                           id="isPublished" 
+                                           th:field="*{isPublished}"
+                                           class="form-check-input">
+                                    <label for="isPublished" class="form-check-label">즉시 발행</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div class="btn-group-custom">
+                        <div>
+                            <a href="/" class="btn-secondary-custom">
+                                <i class="fas fa-arrow-left me-2"></i>취소
+                            </a>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <button type="button" class="btn-outline-custom" onclick="saveDraft()">
+                                <i class="fas fa-save me-2"></i>임시저장
+                            </button>
+                            <button type="submit" class="btn-primary-custom">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                <span th:text="${isEdit ? '수정 완료' : '기사 발행'}">기사 발행</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Quill Editor JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    
+    <script>
+        // Initialize Quill Editor
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            },
+            placeholder: '기사 내용을 작성하세요...'
+        });
+        
+        // Load existing content if editing
+        var existingContent = document.getElementById('content').value;
+        if (existingContent) {
+            quill.root.innerHTML = existingContent;
+        }
+        
+        // Update hidden textarea on form submit
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('content').value = quill.root.innerHTML;
+        });
+        
+        // Image upload functionality
+        const imageUploadArea = document.getElementById('imageUploadArea');
+        const featuredImageInput = document.getElementById('featuredImage');
+        
+        // Handle image URL input
+        featuredImageInput.addEventListener('input', function() {
+            if (this.value) {
+                showImagePreview(this.value);
+            }
+        });
+        
+        function showImagePreview(url) {
+            let existingPreview = document.querySelector('.image-preview');
+            if (existingPreview) {
+                existingPreview.remove();
+            }
+            
+            const img = document.createElement('img');
+            img.src = url;
+            img.className = 'image-preview';
+            img.alt = '미리보기';
+            imageUploadArea.appendChild(img);
+        }
+        
+        // Drag and drop functionality
+        imageUploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+        
+        imageUploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+        
+        imageUploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            // Handle file drop here (would need backend support)
+            alert('파일 업로드 기능은 백엔드 구현이 필요합니다. 현재는 URL 입력을 사용해주세요.');
+        });
+        
+        // Auto-save draft functionality
+        function saveDraft() {
+            document.getElementById('content').value = quill.root.innerHTML;
+            // Here you would implement auto-save to localStorage or backend
+            alert('임시저장 기능은 추후 구현됩니다.');
+        }
+        
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            if (quill.getLength() > 1) {
+                saveDraft();
+            }
+        }, 30000);
+        
+        // Real-time character count
+        quill.on('text-change', function() {
+            const length = quill.getLength();
+            // You can add character count display here
+        });
+        
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            document.getElementById('content').value = quill.root.innerHTML;
+            
+            // Check if content is empty
+            if (quill.getText().trim().length === 0) {
+                e.preventDefault();
+                alert('기사 내용을 입력해주세요.');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>
