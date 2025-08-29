@@ -1,9 +1,5 @@
--- Insert default admin user (password: admin123)
-INSERT INTO users (username, password, email, full_name, role, is_active, created_at, updated_at) VALUES
-('admin', '$2a$10$NTshjq8nK6IEmIrABZZhJeucIQCin3exP9ccnju51ATbCyWv/tnxu', 'admin@handong-media.com', 'Admin User', 'ADMIN', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-
-INSERT INTO users (username, password, email, full_name, role, is_active, created_at, updated_at) VALUES
-('editor', '$2a$10$NTshjq8nK6IEmIrABZZhJeucIQCin3exP9ccnju51ATbCyWv/tnxu', 'editor@handong-media.com', 'Editor Kim', 'ADMIN', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+-- Admin users should be created manually through secure methods
+-- No default admin accounts for security reasons
 
 -- Insert default categories
 INSERT INTO categories (name, description, display_order, is_active, created_at, updated_at) VALUES

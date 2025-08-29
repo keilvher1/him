@@ -1,5 +1,7 @@
--- Admin users should be created manually through secure methods
--- No default admin accounts for security reasons
+-- Temporary admin user for initial deployment (REMOVE IN PRODUCTION)
+-- TODO: Remove this after first deployment and use AdminSetupController
+INSERT INTO users (username, password, email, full_name, role, is_active, created_at, updated_at) VALUES
+('tempAdmin', '$2a$10$NTshjq8nK6IEmIrABZZhJeucIQCin3exP9ccnju51ATbCyWv/tnxu', 'temp@example.com', 'Temporary Admin', 'ADMIN', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Insert default categories
 INSERT INTO categories (name, description, display_order, is_active, created_at, updated_at) VALUES

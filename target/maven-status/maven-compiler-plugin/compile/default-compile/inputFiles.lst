@@ -26,4 +26,5 @@
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/repository/CategoryRepository.java
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/repository/StudentRepository.java
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/repository/ArticleRepository.java
+/Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/controller/AdminSetupController.java
 /Users/mac/spring_boot_proj/2025s-web-service-project2-keilvher1/src/main/java/com/handong/internationalmedia/controller/AuthController.java
