@@ -1,7 +1,8 @@
--- Temporary admin user for initial deployment (REMOVE IN PRODUCTION)
--- TODO: Remove this after first deployment and use AdminSetupController
+-- Temporary users for initial deployment (REMOVE IN PRODUCTION)
+-- TODO: Remove these after first deployment and use AdminSetupController
 INSERT INTO users (username, password, email, full_name, role, is_active, created_at, updated_at) VALUES
-('tempAdmin', '$2a$10$NTshjq8nK6IEmIrABZZhJeucIQCin3exP9ccnju51ATbCyWv/tnxu', 'temp@example.com', 'Temporary Admin', 'ADMIN', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+('tempAdmin', '$2a$10$NTshjq8nK6IEmIrABZZhJeucIQCin3exP9ccnju51ATbCyWv/tnxu', 'admin@example.com', 'Admin User', 'ADMIN', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('tempEditor', '$2a$10$NTshjq8nK6IEmIrABZZhJeucIQCin3exP9ccnju51ATbCyWv/tnxu', 'editor@example.com', 'Editor Kim', 'ADMIN', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Insert default categories
 INSERT INTO categories (name, description, display_order, is_active, created_at, updated_at) VALUES
